@@ -10,7 +10,8 @@ wss.on('connection', (ws) => {
   
   clients.set(ws, metadata);
   
-  ws.send("metadata");
+  ws.send(JSON.stringify(metadata));
+
   ws.on('message', (messageAsString) => {
     // const message = JSON.parse(messageAsString);
     const message = messageAsString.toString()
@@ -20,9 +21,9 @@ wss.on('connection', (ws) => {
     const outbound = message; // messageAsString;
 
     [...clients.keys()].forEach((client) => {
-      if(clients.get(client) != metadata){
+      if(client != ws){
         client.send(outbound);
-        console.log(client);
+        console.log(outbound);
       }
     });
   });
