@@ -1,42 +1,21 @@
-const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 7071 });
-const clients = new Map();
+const { 
+  wsInit } = require("./webSocket.js");
 
-wss.on('connection', (ws) => {
-  const id = uuidv4();
-  let name = "";
-  let metadata = { id , name};
-  console.log("connection")
-  
-  clients.set(ws, metadata);
-  
-  ws.send(JSON.stringify(metadata));
+const express = require("express");
+const path = require("path");
+const cors = require("cors");
 
-  ws.on('message', (messageAsString) => {
-    // const message = JSON.parse(messageAsString);
-    const message = messageAsString.toString()
-    const metadata = clients.get(ws);
-    console.log(metadata)
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
-    const outbound = message; // messageAsString;
+const carpetaStatic = path.join(__dirname, "static");
 
-    [...clients.keys()].forEach((client) => {
-      if(client != ws){
-        client.send(outbound);
-        console.log(outbound);
-      }
-    });
-  });
-  ws.on("close", () => {
-    clients.delete(ws);
-  });
+app.use(express.static(carpetaStatic));
+
+app.listen(3000, function () {
+  console.log("Server running");
 });
 
-function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-}
-
-console.log("wss up");
+wsInit();
