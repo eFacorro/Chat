@@ -1,6 +1,3 @@
-const { 
-  wsInit } = require("./webSocket.js");
-
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
@@ -17,5 +14,3 @@ app.use(express.static(carpetaStatic));
 app.listen(8000, function () {
   console.log("Server running");
 });
-
-wsInit();
