@@ -1,26 +1,33 @@
 hola
 <script>
-  let ws = new WebSocket("wss://chat-websocket-hzgo.onrender.com");
+  function wsInit(wsUrl){
+    let ws = new WebSocket(wsUrl);
 
-  ws.onopen = function(e) {
-    ws.send("test"); // poner aqui autentificacion
-  };
-  
-  ws.onmessage = function(event) {
-    console.log(`[message] Datos recibidos del servidor: ${event.data}`);
-  };
-  
-  ws.onclose = function(event) {
-    if (event.wasClean) {
-      console.log(`[close] Conexión cerrada limpiamente, código=${event.code} motivo=${event.reason}`);
-    } else {
-      // ej. El proceso del servidor se detuvo o la red está caída
-      // event.code es usualmente 1006 en este caso
-      console.log('[close] La conexión se cayó');
-    }
-  };
-  
-  ws.onerror = function(error) {
-    console.log(`[error]`);
-  };
+    ws.onopen = function(e) {
+      ws.send("test"); // poner aqui autentificacion
+    };
+    
+    ws.onmessage = function(event) {
+      console.log(`[message] Datos recibidos del servidor: ${event.data}`);
+    };
+    
+    ws.onclose = function(event) {
+      if (event.wasClean) {
+        console.log(`[close] Conexión cerrada limpiamente, código=${event.code} motivo=${event.reason}`);
+      } else {
+        // ej. El proceso del servidor se detuvo o la red está caída
+        // event.code es usualmente 1006 en este caso
+        console.log('[close] La conexión se cayó');
+      }
+    };
+    
+    ws.onerror = function(error) {
+      console.log(`[error]`);
+      url = "wss://chat-websocket-hzgo.onrender.com";
+      wsInit(url);
+    };
+  }
+  let url = "ws://localhost:7071";
+  wsInit(url);
+
 </script>
