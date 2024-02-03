@@ -14,9 +14,8 @@ const carpetaStatic = path.join(__dirname, "static");
 
 app.use(express.static(carpetaStatic));
 
-wsInit();
-
-app.listen(3000, function () {
+app.listen(8000, function () {
   console.log("Server running");
 });
 
+wsInit();
