@@ -1,6 +1,6 @@
 hola
 <script>
-  let ws = new WebSocket("ws:localhost:7071");
+  let ws = new WebSocket("wss://chat-websocket-hzgo.onrender.com");
 
   ws.onopen = function(e) {
     ws.send("test"); // poner aqui autentificacion
