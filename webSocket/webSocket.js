@@ -18,7 +18,7 @@ wss.on('connection', (ws) => {
       metadata.name = message;
       clients.delete(ws);
       clients.set(ws, metadata);
-      console.log(metadata);
+      console.log("conection", metadata);
       return
     }
     console.log(metadata)
@@ -33,6 +33,8 @@ wss.on('connection', (ws) => {
     });
   });
   ws.on("close", () => {
+    const metadata = clients.get(ws);
+    console.log("close", metadata)
     clients.delete(ws);
   });
 });
